@@ -6,29 +6,46 @@ if ('serviceWorker' in navigator) {
 }
 
 let deferredInstallPrompt;
+const installDialog = document.getElementById('pwa-install-dialog');
+const installButton = document.createElement('button');
+
+installButton.id = 'install-btn';
+installButton.className = 'btn-reset pwa-install-button';
+installButton.type = 'button';
+installButton.innerHTML = '<i class="fa-solid fa-download" aria-hidden="true"></i> Instalar aplicativo';
+installButton.addEventListener('click', installPwa);
+
+document.getElementById('pwa-install-confirm').addEventListener('click', installPwa);
+document.getElementById('pwa-install-dismiss').addEventListener('click', () => {
+  installDialog.close();
+});
+
+async function installPwa() {
+  if (!deferredInstallPrompt) return;
+
+  const installPrompt = deferredInstallPrompt;
+  deferredInstallPrompt = null;
+  installDialog.close();
+
+  try {
+    await installPrompt.prompt();
+    await installPrompt.userChoice;
+  } catch (error) {
+    console.error('Erro ao solicitar a instalação do aplicativo:', error);
+  } finally {
+    installButton.remove();
+  }
+}
 
 window.addEventListener('beforeinstallprompt', event => {
   event.preventDefault();
   deferredInstallPrompt = event;
-
-  const installButton = document.createElement('button');
-  installButton.id = 'install-btn';
-  installButton.className = 'btn-reset pwa-install-button';
-  installButton.type = 'button';
-  installButton.innerHTML = '<i class="fa-solid fa-download" aria-hidden="true"></i> Instalar aplicativo';
-  installButton.addEventListener('click', async () => {
-    if (!deferredInstallPrompt) return;
-
-    await deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
-    installButton.remove();
-  });
-
+  if (!installDialog.open) installDialog.showModal();
   document.querySelector('.filter-card').append(installButton);
 });
 
 window.addEventListener('appinstalled', () => {
   deferredInstallPrompt = null;
+  if (installDialog.open) installDialog.close();
   document.getElementById('install-btn')?.remove();
 });
