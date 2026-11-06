@@ -27,6 +27,18 @@
     line-height: 1.5;
 }
 
+.pwa-ios-install-steps {
+    margin: 16px 0 0;
+    padding-left: 22px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.pwa-ios-install-steps li + li {
+    margin-top: 8px;
+}
+
 .pwa-install-actions {
     display: flex;
     justify-content: flex-end;

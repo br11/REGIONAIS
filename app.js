@@ -49,3 +49,19 @@ window.addEventListener('appinstalled', () => {
   if (installDialog.open) installDialog.close();
   document.getElementById('install-btn')?.remove();
 });
+
+const iosInstallDialog = document.getElementById('pwa-ios-install-dialog');
+document.getElementById('pwa-ios-install-dismiss').addEventListener('click', () => {
+  iosInstallDialog.close();
+});
+
+const isIosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isRunningStandalone = navigator.standalone === true ||
+  window.matchMedia('(display-mode: standalone)').matches;
+
+if (isIosDevice && !isRunningStandalone) {
+  window.addEventListener('load', () => {
+    if (!installDialog.open) iosInstallDialog.showModal();
+  });
+}
