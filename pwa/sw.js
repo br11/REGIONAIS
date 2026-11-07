@@ -2,11 +2,11 @@ const CACHE_NAME = 'regionais-pwa-v1';
 const CACHE_PREFIX = 'regionais-pwa-';
 const APP_ROOT = new URL('./', self.registration.scope);
 const APP_FILES = [
-  '/REGIONAIS/',
-  '/REGIONAIS/index.html',
-  '/REGIONAIS/manifest.json',
-  '/REGIONAIS/icon/icon-192.png',
-  '/REGIONAIS/icon/icon-512.png'
+  '/REGIONAIS/pwa/',
+  '/REGIONAIS/pwa/index.html',
+  '/REGIONAIS/pwa/manifest.json',
+  '/REGIONAIS/pwa/icon/icon-192.png',
+  '/REGIONAIS/pwa/icon/icon-512.png'
 ].map(path => new URL(path, APP_ROOT).href);
 
 self.addEventListener('install', event => {
