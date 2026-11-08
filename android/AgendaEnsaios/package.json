@@ -1,0 +1,21 @@
+{
+  "name": "agenda-ensaios-android",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build:web": "node scripts/build-web.mjs",
+    "android:assets": "swift scripts/generate-assets.swift",
+    "cap:sync": "npm run build:web && cap sync android",
+    "android": "npm run cap:sync && cap open android"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.6.0"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/cli": "^8.6.0"
+  }
+}
